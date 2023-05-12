@@ -12,5 +12,4 @@ void main() {
     vec3 col = uColor;
 
     gl_FragColor = vec4(col, 1.);
-    gl_FragColor = vec4(vec3(st, 0.), 1.);
 }

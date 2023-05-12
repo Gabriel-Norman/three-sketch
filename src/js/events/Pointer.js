@@ -22,20 +22,25 @@ class Pointer {
   }
 
   onPointerDown = () => {
-    const {viewport} = this.state;
+    const {state} = this
+    state.isDown = true
+
     Emitter.emit('site:pointerdown', {})
   };
 
   onPointerMove = (e) => {
     const {clientX, clientY} = e
     const {pos} = this.state;
+
     pos.x = clientX
     pos.y = clientY
-    Emitter.emit('site:pointermove', {})
+    Emitter.emit('site:pointermove', {state: this.state})
   };
 
   onPointerUp = () => {
-    const {viewport} = store;
+    const {state} = this
+    state.isDown = false
+
     Emitter.emit('site:pointerup', {})
   };
 }

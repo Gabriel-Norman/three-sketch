@@ -1,7 +1,6 @@
 import {
     Color,
     Mesh,
-    MeshBasicMaterial,
     Object3D,
     PlaneGeometry,
     ShaderMaterial,
@@ -33,7 +32,6 @@ import {
     }
   
     createMaterial() {
-      // this.material = new MeshBasicMaterial({color: 0xff0000})
       this.material = new ShaderMaterial({
         uniforms: {
           uTime: {value: 0},
