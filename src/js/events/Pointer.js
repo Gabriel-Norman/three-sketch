@@ -1,14 +1,15 @@
-import store from '../store/globalStore'
 import Emitter from "./Emitter";
+import gsap from 'gsap';
 
 class Pointer {
   constructor() {
     this.state = {
-      pos: {
-        x: 0,
-        y: 0
-      },
-      isDown: false
+      current: { x: 0, y: 0 },
+      target: { x: 0, y: 0 },
+      ease: 0.1,
+      velocity: 0,
+      normalizedVelocity: 0,
+      isPressing: false
     }
 
     this.init();
@@ -19,30 +20,48 @@ class Pointer {
     document.addEventListener('pointermove', this.onPointerMove)
     window.addEventListener('pointerup', this.onPointerUp)
     window.addEventListener('pointerleave', this.onPointerUp)
+    Emitter.on("site:tick", this.onTick);
   }
 
   onPointerDown = () => {
     const {state} = this
-    state.isDown = true
+    state.isPressing = true
 
-    Emitter.emit('site:pointerdown', {})
+    Emitter.emit('site:pointer:down', {})
   };
 
   onPointerMove = (e) => {
     const {clientX, clientY} = e
-    const {pos} = this.state;
+    const {target} = this.state;
 
-    pos.x = clientX
-    pos.y = clientY
-    Emitter.emit('site:pointermove', {state: this.state})
+    target.x = clientX
+    target.y = clientY
+    Emitter.emit('site:pointer:move', {})
   };
 
   onPointerUp = () => {
     const {state} = this
-    state.isDown = false
+    state.isPressing = false
 
-    Emitter.emit('site:pointerup', {})
+    Emitter.emit('site:pointer:up', {})
   };
+
+  onTick = ({rafDamp}) => {
+    const {interpolate, clamp} = gsap.utils
+    const {current, target, ease} = this.state;
+
+    current.x = interpolate(current.x, target.x, ease * rafDamp);
+		current.y = interpolate(current.y, target.y, ease * rafDamp);
+		const mouseTravelX = Math.abs(Math.round((target.x - current.x) * 100) / 100);
+		const mouseTravelY = Math.abs(Math.round((target.y - current.y) * 100) / 100);
+		this.state.velocity = Math.max(mouseTravelX, mouseTravelY);
+    this.state.normalizedVelocity = clamp(0, 1, this.state.velocity);
+
+    if(this.state.normalizedVelocity !== 0) {
+      Emitter.emit('site:pointer:lerping', {state: this.state})
+    }
+
+  }
 }
 
 export default new Pointer();

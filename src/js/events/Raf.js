@@ -1,6 +1,8 @@
 import gsap from "gsap";
 import Emitter from "./Emitter";
 
+let RD = 0;
+const FR = 1e3 / 60;
 class Raf {
   constructor() {
     this.isPaused = false;
@@ -14,7 +16,8 @@ class Raf {
 
   onTick = (time, deltaTime) => {
     if (!this.isPaused) {
-      Emitter.emit("site:tick", { delta: deltaTime, time: time });
+      this.t || (this.t = time), (RD = (time - this.t) / FR), (this.t = time);
+      Emitter.emit("site:tick", { delta: deltaTime, time: time, rafDamp: RD * 1000 });
     }
   };
 }
