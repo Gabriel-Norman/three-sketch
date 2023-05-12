@@ -12,7 +12,7 @@ class App {
   }
 
   async init() {
-    // await this.preloader.load()
+    await this.preloader.load()
     this.canvas.init()
   }
 }

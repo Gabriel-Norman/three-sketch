@@ -1,11 +1,11 @@
 import { defineConfig } from "vite";
-import { resolve } from 'path'
-import glsl from 'vite-plugin-glsl';
+import { resolve } from 'path';
+import { glslify } from 'vite-plugin-glslify';
 
 export default ({ mode }) => {
   return defineConfig({
     plugins: [
-      glsl()
+      glslify()
     ],
     root: "",
     build: {
