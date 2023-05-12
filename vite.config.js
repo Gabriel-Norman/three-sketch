@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import { resolve } from 'path'
 import glsl from 'vite-plugin-glsl';
 
@@ -17,13 +17,6 @@ export default ({ mode }) => {
           main: resolve(__dirname, "./src/js/index.js"),
         },
       },
-    },
-    // server: {
-    //   cors: true,
-    //   origin: "http://127.0.0.1:" + 3000,
-    //   strictPort: true,
-    //   port: 3000,
-    //   open: process.env.VITE_WEBSITE_URL || "",
-    // },
+    }
   });
 };

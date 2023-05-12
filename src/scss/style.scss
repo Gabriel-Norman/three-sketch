@@ -16,3 +16,16 @@ body {
     height: 100%;
     outline: none;
 }
+
+#preloader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#preloader-number {
+    color: white;
+    font-size: 12px;
+    font-family: sans-serif;
+}
