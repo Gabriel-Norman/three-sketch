@@ -1,14 +1,18 @@
 import Emitter from "./Emitter";
 import gsap from 'gsap';
+import store from "../store/globalStore";
 
 class Pointer {
   constructor() {
     this.state = {
       current: { x: 0, y: 0 },
       target: { x: 0, y: 0 },
+      normalized: { x: 0, y: 0 },
+      mapped: { x: 0, y: 0 },
       ease: 0.1,
-      velocity: 0,
-      normalizedVelocity: 0,
+      velocity: {x: 0, y: 0},
+      speed: 0,
+      speedNormalized: 0,
       isPressing: false
     }
 
@@ -23,41 +27,52 @@ class Pointer {
     Emitter.on("site:tick", this.onTick);
   }
 
-  onPointerDown = () => {
+  onPointerDown = (e) => {
     const {state} = this
     state.isPressing = true
 
-    Emitter.emit('site:pointer:down', {})
+    Emitter.emit('site:pointer:down', {e})
   };
 
   onPointerMove = (e) => {
+    const {viewport} = store
+    const {mapRange} = gsap.utils
     const {clientX, clientY} = e
-    const {target} = this.state;
+    const {target, normalized, mapped} = this.state;
 
     target.x = clientX
     target.y = clientY
-    Emitter.emit('site:pointer:move', {})
+    normalized.x = clientX / viewport.width || 0
+    normalized.y = clientY / viewport.height || 0
+    mapped.x = mapRange(0, viewport.width, -1, 1, clientX);
+    mapped.y = mapRange(0, viewport.height, -1, 1, clientY);
+    Emitter.emit('site:pointer:move', {e, state: {pos: this.state.target, normalizedPos: this.state.normalized, mappedPos: this.state.mapped}})
   };
 
-  onPointerUp = () => {
+  onPointerUp = (e) => {
     const {state} = this
     state.isPressing = false
 
-    Emitter.emit('site:pointer:up', {})
+    Emitter.emit('site:pointer:up', {e})
   };
 
   onTick = ({rafDamp}) => {
-    const {interpolate, clamp} = gsap.utils
-    const {current, target, ease} = this.state;
+    const {viewport} = store
+    const {interpolate, clamp, mapRange} = gsap.utils
+    const {current, target, ease, velocity} = this.state;
 
     current.x = interpolate(current.x, target.x, ease * rafDamp);
 		current.y = interpolate(current.y, target.y, ease * rafDamp);
-		const mouseTravelX = Math.abs(Math.round((target.x - current.x) * 100) / 100);
-		const mouseTravelY = Math.abs(Math.round((target.y - current.y) * 100) / 100);
-		this.state.velocity = Math.max(mouseTravelX, mouseTravelY);
-    this.state.normalizedVelocity = clamp(0, 1, this.state.velocity);
+    const velX = Math.round((target.x - current.x) * 100) / 100;
+		const velY = Math.round((target.y - current.y) * 100) / 100;
+		const mouseTravelX = Math.abs(velX);
+		const mouseTravelY = Math.abs(velY);
+    velocity.x = mapRange(-viewport.width / 2, viewport.width / 2, 1, -1, velX)
+		velocity.y = mapRange(-viewport.height / 2, viewport.height / 2, -1, 1, velY);
+		this.state.speed = Math.max(mouseTravelX, mouseTravelY);
+    this.state.speedNormalized = clamp(0, 1, this.state.speed);
 
-    if(this.state.normalizedVelocity !== 0) {
+    if(this.state.speedNormalized !== 0) {
       Emitter.emit('site:pointer:lerping', {state: this.state})
     }
 

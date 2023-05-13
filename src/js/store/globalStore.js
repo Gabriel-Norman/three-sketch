@@ -3,8 +3,9 @@ const store = {
         width: 0,
         height: 0,
         aspect: 0,
+        dpr: 0
     },
-    canvasSizes: {
+    canvasMapping: {
         width: 0,
         height: 0,
     },

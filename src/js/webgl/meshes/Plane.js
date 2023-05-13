@@ -6,15 +6,16 @@ import {
   ShaderMaterial,
   Vector2,
 } from "three"
-import store from "../store/globalStore";
-import { getAsset } from '../utils/assetsLoader'
+import store from "../../store/globalStore";
+import { getAsset } from '../../utils/assetsLoader'
+// import trail from "@/js/webgl/utils/mouseFBO/trail";
   
 const PARAMS = {
   color: 'rgb(255,0,0)'
 }
 
-import vertex from "../../shaders/plane.vs.glsl";
-import fragment from "../../shaders/plane.fs.glsl";
+import vertex from "@/js/webgl/shaders/plane.vs.glsl";
+import fragment from "@/js/webgl/shaders/plane.fs.glsl";
 
 export default class extends Object3D {
   constructor(options) {
@@ -39,6 +40,7 @@ export default class extends Object3D {
         uResolution: {value: new Vector2()},
         uRatio: {value: 0},
         uColor: {value: new Color(PARAMS.color)},
+        // uTrail: {value: trail.fbo.target }
         // uTex: {value: getAsset('tex-cat')}
       },
       // transparent: true,

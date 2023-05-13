@@ -17,6 +17,11 @@ export default ({ mode }) => {
           main: resolve(__dirname, "./src/js/index.js"),
         },
       },
+    },
+    resolve: {
+      alias: {
+        '@' : resolve(__dirname, './src')
+      }
     }
   });
 };

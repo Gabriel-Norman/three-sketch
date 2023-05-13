@@ -1,4 +1,5 @@
 import store from '../store/globalStore'
+import { gsap } from 'gsap';
 import Emitter from "./Emitter";
 
 class Resize {
@@ -16,6 +17,8 @@ class Resize {
 
     viewport.width = window.innerWidth
     viewport.height = window.innerHeight
+    viewport.aspect = window.innerWidth / window.innerHeight
+    viewport.dpr = gsap.utils.clamp(1, 2, window.devicePixelRatio)
 
     Emitter.emit('site:resize', {})
   };
