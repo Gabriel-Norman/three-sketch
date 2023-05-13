@@ -17,7 +17,6 @@ class Camera extends PerspectiveCamera {
 
     this.controls.enabled = true;
     this.controls.maxDistance = 900;
-    // this.controls.minDistance = 0;
   }
 
   onResize() {

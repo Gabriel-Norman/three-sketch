@@ -144,18 +144,6 @@ export default class FBO {
 		return this.material.uniforms;
 	}
 
-	// TODO: test...
-	// onResize() {
-	// 	const {viewport} = store;
-	// 	this.material.defines.RESOLUTION = `vec2(${viewport.width.toFixed(1)}, ${viewport.height.toFixed(1)})`;
-	// 	this.options.width = viewport.width;
-	// 	this.options.height = viewport.height;
-
-	// 	this.rt.forEach((rt) => {
-	// 		rt.setSize(viewport.width, viewport.height);
-	// 	});
-	// }
-
 	onTick = (switchBack = true) => {
 		const destIndex = this.index === 0 ? 1 : 0;
 		const old = this.rt[this.index];

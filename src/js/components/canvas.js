@@ -39,7 +39,6 @@ export class Canvas {
   }
 
   setupDebug() {
-    // Raf debugger
     const rendererDebug = tweak.addFolder({
         title: 'renderer'
     })
@@ -63,21 +62,13 @@ export class Canvas {
 
   onTick = ({ delta, time, rafDamp }) => {
     this.plane?.onTick(time)
-
-    // Update camera
     camera?.onTick()
-
-    // Update renderer
     renderer.render(this.scene, camera);
   };
 
   onResize = () => {
     this.plane?.onResize();
-
-    // Update camera
     camera?.onResize()
-
-    // Update renderer
     renderer?.onResize()
   };
 }
