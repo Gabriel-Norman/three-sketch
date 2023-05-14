@@ -9,8 +9,8 @@ import { Emitter } from "../events"
 export class Canvas {
   init() {
     document.querySelector('.webgl').appendChild(renderer.domElement)
-    scene.init()
     camera.init()
+    scene.init()
     // postfx.init()
     
     this.setupEventListeners()

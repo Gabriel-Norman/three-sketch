@@ -1,4 +1,4 @@
-import FBO from '../fbo/fbo';
+import FBO from '.';
 import { Vector2 } from 'three';
 import store from '@/js/store/globalStore';
 
@@ -71,8 +71,6 @@ class Trail {
 	onResize = () => {
 		const { viewport } = store
 		const { uAspect } = this.fbo.uniforms;
-		this.fbo.onResize()
-
 		uAspect.value = viewport.aspect;
 	}
 }

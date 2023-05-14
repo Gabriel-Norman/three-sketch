@@ -9,7 +9,7 @@ import {
 import store from "../../store/globalStore";
 import { getAsset } from '../../utils/assetsLoader'
 import tweak from '@/js/utils/debugger'
-// import trail from "@/js/webgl/utils/mouseFBO/trail";
+import trail from "@/js/webgl/utils/fbo/trail";
   
 const PARAMS = {
   color: 'rgb(255,0,0)'

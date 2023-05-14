@@ -113,7 +113,7 @@ export default class FBO {
 
 		this.debugMesh = new Mesh(this.debugGeometry, this.debugMaterial);
 		this.debugMesh.position.set(0, 0, -5);
-
+		
 		camera.add(this.debugMesh);
 	}
 
