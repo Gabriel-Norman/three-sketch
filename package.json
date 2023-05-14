@@ -14,7 +14,9 @@
     "vite-plugin-glslify": "^2.0.1"
   },
   "dependencies": {
+    "detect-gpu": "^5.0.24",
     "glsl-blend": "^1.0.3",
+    "glsl-fxaa": "^3.0.0",
     "gsap": "^3.11.5",
     "three": "^0.152.2",
     "tiny-emitter": "^2.1.0",

@@ -8,14 +8,15 @@ import {
 } from "three"
 import store from "../../store/globalStore";
 import { getAsset } from '../../utils/assetsLoader'
+import tweak from '@/js/utils/debugger'
 // import trail from "@/js/webgl/utils/mouseFBO/trail";
   
 const PARAMS = {
   color: 'rgb(255,0,0)'
 }
 
-import vertex from "@/js/webgl/shaders/plane.vs.glsl";
-import fragment from "@/js/webgl/shaders/plane.fs.glsl";
+import vertexShader from "@/js/webgl/shaders/plane.vs.glsl";
+import fragmentShader from "@/js/webgl/shaders/plane.fs.glsl";
 
 export default class extends Object3D {
   constructor(options) {
@@ -25,10 +26,12 @@ export default class extends Object3D {
     this.createMaterial()
     this.createMesh()
     this.onResize()
+
+    this.addDebug()
   }
 
-  addDebug(pane) {
-    pane.addInput(PARAMS, 'color').on('change', (ev) => {
+  addDebug() {
+    tweak.addInput(PARAMS, 'color').on('change', (ev) => {
       this.material.uniforms.uColor.value = new Color(ev.value)
     })
   }
@@ -44,8 +47,8 @@ export default class extends Object3D {
         // uTex: {value: getAsset('tex-cat')}
       },
       // transparent: true,
-      vertexShader: vertex,
-      fragmentShader: fragment,
+      vertexShader,
+      fragmentShader,
     });
   }
 

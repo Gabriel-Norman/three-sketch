@@ -1,7 +1,6 @@
 import '../scss/style.scss'
 import { Preloader } from './components/preloader'
 import { Canvas } from './components/canvas'
-import { getAsset } from './utils/assetsLoader'
 
 class App {
   constructor() {

@@ -210,6 +210,13 @@ deep-is@~0.1.3:
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.4.tgz#a6f2dce612fadd2ef1f519b73551f17e85199831"
   integrity sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==
 
+detect-gpu@^5.0.24:
+  version "5.0.24"
+  resolved "https://registry.yarnpkg.com/detect-gpu/-/detect-gpu-5.0.24.tgz#3a8c6dbcb0395c82da1eff3c3ae9ea1dd37c89e9"
+  integrity sha512-cI+WJujCzsJDlYKhcildTtG7YZmWsvMSFH6+gnozHp/R+Wr/WtR361e2PFQ3oDLo8Ek2xy5Buaiv2ucAI2D1qg==
+  dependencies:
+    webgl-constants "^1.1.1"
+
 duplexify@^3.4.5:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.7.1.tgz#2a4df5317f6ccfd91f86d6fd25d8d8a103b88309"
@@ -341,6 +348,11 @@ glsl-blend@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/glsl-blend/-/glsl-blend-1.0.3.tgz#0f636604f0e9e7cab647888c58ce7c79e67eef7c"
   integrity sha512-P/Tuls3CSTBKR9BJR98Lte3SFphpzWnqQNLH67q3OeH0FMYixl0rMLr0BcNdB0tkS6mCphRy78Y0AwP1IkV/rA==
+
+glsl-fxaa@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/glsl-fxaa/-/glsl-fxaa-3.0.0.tgz#f432228fba9d2a8a7240943c593d20c3176f3b93"
+  integrity sha512-DocLGbKW+YFIynx80X65GENCfLg8skTETH56flJEPEH6ZPRs//hytRmIVU5Q2c4nPkhoz1rZGmkia+ckU6g7YQ==
 
 glsl-inject-defines@^1.0.1:
   version "1.0.3"
@@ -843,6 +855,11 @@ vite@^4.3.2:
     rollup "^3.21.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+webgl-constants@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/webgl-constants/-/webgl-constants-1.1.1.tgz#f9633ee87fea56647a60b9ce735cbdfb891c6855"
+  integrity sha512-LkBXKjU5r9vAW7Gcu3T5u+5cvSvh5WwINdr0C+9jpzVB41cjQAP5ePArDtk/WHYdVj0GefCgM73BA7FlIiNtdg==
 
 word-wrap@~1.2.3:
   version "1.2.3"
