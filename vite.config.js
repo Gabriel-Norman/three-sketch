@@ -14,6 +14,7 @@ export default ({ mode }) => {
       manifest: true,
       rollupOptions: {
         input: {
+          index: resolve(__dirname, "./index.html"),
           main: resolve(__dirname, "./src/js/index.js"),
         },
       },
