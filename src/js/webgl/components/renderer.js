@@ -20,9 +20,9 @@ class Renderer extends WebGLRenderer {
       title: 'renderer'
     })
     rendererDebug.expanded = false
-    rendererDebug.addMonitor(this.info.memory, 'geometries', { label: 'geometr.' })
-    rendererDebug.addMonitor(this.info.memory, 'textures')
-    rendererDebug.addInput(GlobalRaf, "isPaused", {label: 'Pause Raf'});
+    rendererDebug.addBinding(this.info.memory, 'geometries', { label: 'geometr.' })
+    rendererDebug.addBinding(this.info.memory, 'textures')
+    rendererDebug.addBinding(GlobalRaf, "isPaused", {label: 'Pause Raf'});
     window.addEventListener("keyup", (e) => {
       if (e.key !== "p") return;
       GlobalRaf.isPaused = !GlobalRaf.isPaused;

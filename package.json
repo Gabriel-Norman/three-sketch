@@ -9,17 +9,17 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "sass": "^1.62.1",
-    "vite": "^4.3.2",
-    "vite-plugin-glslify": "^2.0.1"
+    "sass": "^1.77.4",
+    "vite": "^5.2.12",
+    "vite-plugin-glslify": "^2.1.0"
   },
   "dependencies": {
-    "detect-gpu": "^5.0.24",
+    "detect-gpu": "^5.0.38",
     "glsl-blend": "^1.0.3",
     "glsl-fxaa": "^3.0.0",
-    "gsap": "^3.11.5",
-    "three": "^0.152.2",
+    "gsap": "^3.12.5",
+    "three": "^0.165.0",
     "tiny-emitter": "^2.1.0",
-    "tweakpane": "^3.1.9"
+    "tweakpane": "^4.0.3"
   }
 }

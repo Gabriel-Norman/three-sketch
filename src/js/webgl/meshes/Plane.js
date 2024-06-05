@@ -31,7 +31,7 @@ export default class extends Object3D {
   }
 
   addDebug() {
-    tweak.addInput(PARAMS, 'color').on('change', (ev) => {
+    tweak.addBinding(PARAMS, 'color').on('change', (ev) => {
       this.material.uniforms.uColor.value = new Color(ev.value)
     })
   }
