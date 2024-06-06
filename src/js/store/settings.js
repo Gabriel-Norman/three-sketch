@@ -5,7 +5,6 @@ const tier = getGPUTier();
 
 const settings = {
     tier,
-    debugger: true,
     fxaa: true,
 };
 

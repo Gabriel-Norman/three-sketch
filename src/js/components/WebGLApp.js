@@ -4,9 +4,9 @@ import scene from '@/js/webgl/components/scene'
 import settings from '@/js/store/settings'
 import postfx from '@/js/webgl/components/postfx'
 
-import { Emitter } from "../events"
+import { Emitter } from "@/js/events"
 
-export class Canvas {
+export default class WebGLApp {
   init() {
     document.querySelector('.webgl').appendChild(renderer.domElement)
     camera.init()
@@ -25,6 +25,7 @@ export class Canvas {
   onTick = ({ delta, time, rafDamp }) => {
     scene?.onTick({time})
     renderer?.render(scene, camera)
+    renderer?.stats?.update()
     // postfx?.render(scene, camera)
   }
 

@@ -1,18 +1,18 @@
 import '../scss/style.scss'
 import { Preloader } from './components/preloader'
-import { Canvas } from './components/canvas'
+import WebGLApp from './components/WebGLApp'
 
 class App {
   constructor() {
     this.preloader = new Preloader()
-    this.canvas = new Canvas()
+    this.webgl = new WebGLApp()
 
     this.init()
   }
 
   async init() {
     await this.preloader.load()
-    this.canvas.init()
+    this.webgl.init()
   }
 }
 

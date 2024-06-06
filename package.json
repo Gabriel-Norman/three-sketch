@@ -18,6 +18,7 @@
     "glsl-blend": "^1.0.3",
     "glsl-fxaa": "^3.0.0",
     "gsap": "^3.12.5",
+    "stats-js": "^1.0.1",
     "three": "^0.165.0",
     "tiny-emitter": "^2.1.0",
     "tweakpane": "^4.0.3"

@@ -13,6 +13,7 @@ import {
   import triangle from '@/js/webgl/utils/primitives/triangle';
   import vertexShader from '@/js/webgl/shaders/postfx.vs.glsl';
   import fragmentShader from '@/js/webgl/shaders/postfx.fs.glsl';
+import { tweakFolder } from '../../utils/debugger';
   
   class PostFX {
     init() {
@@ -44,6 +45,15 @@ import {
       this.triangle = new Mesh(triangle, this.material);
       this.triangle.frustumCulled = false;
       this.scene.add(this.triangle);
+
+      this.addDebug()
+    }
+
+    addDebug() {
+      const debug = tweakFolder.addFolder({
+        title: 'PostFx'
+      })
+      debug.expanded = false
     }
   
     onResize() {

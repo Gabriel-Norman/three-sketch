@@ -1,21 +1,25 @@
 import { Scene } from 'three';
-import camera from './camera';
-
-import Plane from "../meshes/Plane";
+import camera from '@/js/webgl/components/camera';
+import Plane from "@/js/webgl/meshes/Plane";
 
 class Stage extends Scene {
   init() {
+    this.add(camera)
+
     this.plane = new Plane();
     this.add(this.plane)
-    this.add(camera)
   }
 
-  onTick({time}) {
-    this.plane?.onTick(time)
+  onTick ({time}) {
+    for (const child of this.children) {
+      child.onTick?.(time)
+    }
   }
 
-  onResize() {
-    this.plane?.onResize()
+  onResize () {
+    for (const child of this.children) {
+      child.onResize?.()
+    }
   }
 }
 
