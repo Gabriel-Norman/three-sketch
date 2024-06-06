@@ -33,11 +33,10 @@ export default class extends Object3D {
   }
 
   addDebug() {
-    const debug = createFolder(sceneFolder, { title: 'Plane' })
+    const debug = createFolder(sceneFolder, { title: 'Plane' }, this)
     debug.addBinding(PARAMS, 'color').on('change', (ev) => {
       this.material.uniforms.uColor.value = new Color(ev.value)
     })
-    copyData(debug)
   }
 
   createMaterial() {

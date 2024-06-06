@@ -81,8 +81,18 @@ document.addEventListener('keyup', (e) => e.key === 'h' && (tweak.hidden = !twea
 window.addEventListener('resize', onResize)
 onResize()
 
-export function createFolder(parent, options) {
+export function createFolder(parent, options, el = null) {
     const folder = parent.addFolder(options)
+
+    if(el) {
+        const defPropsFolder = folder.addFolder({ title: 'Default props' })
+        defPropsFolder.expanded = false
+        el.visible && defPropsFolder.addBinding(el, 'visible')
+        el.position && defPropsFolder.addBinding(el, 'position')
+        el.rotation && defPropsFolder.addBinding(el, 'rotation')
+        el.scale && defPropsFolder.addBinding(el, 'scale')
+    }
+
     const copyBtn = document.createElement('button')
     copyBtn.classList.add('tp-btnCopy')
     copyBtn.innerHTML = '<div class="tp-btnCopy-copied">✔</div><svg class="tp-btnCopy-copy" viewBox="0 0 32 32"><path fill="#c1c1c1" d="M 4 4 L 4 5 L 4 23 L 4 24 L 5 24 L 11 24 L 11 22 L 6 22 L 6 6 L 18 6 L 18 7 L 20 7 L 20 5 L 20 4 L 19 4 L 5 4 L 4 4 z M 12 8 L 12 9 L 12 27 L 12 28 L 13 28 L 27 28 L 28 28 L 28 27 L 28 9 L 28 8 L 27 8 L 13 8 L 12 8 z M 14 10 L 26 10 L 26 26 L 14 26 L 14 10 z"></path></svg>'
@@ -97,10 +107,19 @@ export function createFolder(parent, options) {
 
 export function copyData(folder) {
     const exportS = folder.exportState()
-    const state = exportS.children.reduce((acc, item) => {
-        acc[item.binding.key] = item.binding.value;
+    function processChildren(children, acc) {
+        children.forEach(item => {
+            if(!item.children) {
+                acc[item.binding.key] = item.binding.value
+            } else {
+                item.children.forEach(nestedItem => {
+                    acc[nestedItem.binding.key] = nestedItem.binding.value;
+                });
+            }
+        });
         return acc;
-    }, {});
+    }
+    const state = processChildren(exportS.children, {});
     const data = JSON.stringify(state, null, ' ');
     navigator.clipboard.writeText(data);
 }
