@@ -1,6 +1,7 @@
 import Emitter from "./Emitter";
 import gsap from 'gsap';
-import store from "../store/globalStore";
+import store from "@/js/store/globalStore";
+import { damp } from "@/js/utils/math";
 
 class Pointer {
   constructor() {
@@ -58,11 +59,11 @@ class Pointer {
 
   onTick = ({rafDamp}) => {
     const {viewport} = store
-    const {interpolate, clamp, mapRange} = gsap.utils
+    const {clamp, mapRange} = gsap.utils
     const {current, target, ease, velocity} = this.state;
 
-    current.x = interpolate(current.x, target.x, ease * rafDamp);
-		current.y = interpolate(current.y, target.y, ease * rafDamp);
+    current.x = damp(current.x, target.x, ease, rafDamp);
+		current.y = damp(current.y, target.y, ease, rafDamp);
     const velX = Math.round((target.x - current.x) * 100) / 100;
 		const velY = Math.round((target.y - current.y) * 100) / 100;
 		const mouseTravelX = Math.abs(velX);

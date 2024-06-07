@@ -1,4 +1,4 @@
-import store from '../store/globalStore'
+import store from '@/js/store/globalStore'
 import { gsap } from 'gsap';
 import Emitter from "./Emitter";
 
