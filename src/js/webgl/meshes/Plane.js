@@ -9,6 +9,7 @@ import {
 import store from "@/js/store/globalStore";
 import { getAsset } from '@/js/utils/assetsLoader'
 import trail from "@/js/webgl/utils/fbo/trail";
+import fluidTrail from "@/js/webgl/utils/fbo/fluidTrail";
 import vertexShader from "@/js/webgl/shaders/plane.vs.glsl";
 import fragmentShader from "@/js/webgl/shaders/plane.fs.glsl";
 import { sceneFolder } from "@/js/utils/debugger";
@@ -45,7 +46,8 @@ export default class extends Object3D {
         uTime: {value: 0},
         uResolution: {value: new Vector3()},
         uColor: {value: new Color(PARAMS.color)},
-        // tMap: {value: getAsset('tex-cat')}
+        tMap: {value: getAsset('tex-cat')},
+        tTrail: {value: fluidTrail.fbo.tex.value }
         // tTrail: {value: trail.fbo.target }
       },
       // transparent: true,
