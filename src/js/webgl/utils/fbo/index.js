@@ -30,9 +30,9 @@ import {
 	MeshBasicMaterial,
 	RawShaderMaterial
 } from 'three';
-import triangle from '../primitives/triangle';
-import renderer from '../../components/renderer';
-import camera from '../../components/camera';
+import triangle from '@/js/webgl/utils/primitives/triangle';
+import renderer from '@/js/webgl/components/renderer';
+import camera from '@/js/webgl/components/camera';
 
 const iOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 const type = iOS ? HalfFloatType : FloatType;

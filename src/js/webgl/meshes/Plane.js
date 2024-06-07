@@ -13,7 +13,7 @@ import fluidTrail from "@/js/webgl/utils/fbo/fluidTrail";
 import vertexShader from "@/js/webgl/shaders/plane.vs.glsl";
 import fragmentShader from "@/js/webgl/shaders/plane.fs.glsl";
 import { sceneFolder } from "@/js/utils/debugger";
-import { copyData, createFolder } from "../../utils/debugger";
+import { createFolder } from "@/js/utils/debugger";
 
 const PARAMS = {
   color: 'rgb(255,0,0)',

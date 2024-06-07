@@ -1,9 +1,8 @@
 import { Fluid } from './fluid'
 import { Vector2 } from 'three';
 import store from '@/js/store/globalStore';
-import renderer from '../../components/renderer';
-
-import { Emitter } from '../../../events';
+import renderer from '@/js/webgl/components/renderer';
+import { Emitter } from '@/js/events';
 
 // https://github.com/alienkitty/alien.js/blob/main/examples/three/shader_fluid_distortion.html
 
@@ -33,7 +32,7 @@ class FluidTrail {
 	}
 
 	onPointerMove = ({ state }) => {
-        const {viewport} = store
+        const { viewport } = store
         const { pos } = state;
 
         // First input

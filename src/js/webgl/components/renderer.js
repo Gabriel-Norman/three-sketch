@@ -4,7 +4,7 @@ import store from '@/js/store/globalStore';
 import tweak from '@/js/utils/debugger'
 
 import { GlobalRaf } from "@/js/events";
-import { tweakFolder } from '../../utils/debugger';
+import { tweakFolder } from '@/js/utils/debugger';
 
 class Renderer extends WebGLRenderer {
   constructor() {

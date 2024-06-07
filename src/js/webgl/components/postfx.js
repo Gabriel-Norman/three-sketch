@@ -13,7 +13,7 @@ import {
   import triangle from '@/js/webgl/utils/primitives/triangle';
   import vertexShader from '@/js/webgl/shaders/postfx.vs.glsl';
   import fragmentShader from '@/js/webgl/shaders/postfx.fs.glsl';
-import { tweakFolder } from '../../utils/debugger';
+import { tweakFolder } from '@/js/utils/debugger';
   
   class PostFX {
     init() {

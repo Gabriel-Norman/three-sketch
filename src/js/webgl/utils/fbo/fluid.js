@@ -13,8 +13,8 @@ import {
     WebGLRenderTarget
 } from 'three';
 
-import triangle from '../primitives/triangle'
-import { getDoubleRenderTarget } from '../index';
+import triangle from '@/js/webgl/utils/primitives/triangle'
+import { getDoubleRenderTarget } from '@/js/webgl/utils';
 
 const baseVertexShader = /* glsl */ `
     precision highp float;

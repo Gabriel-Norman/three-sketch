@@ -1,9 +1,8 @@
 import FBO from '.';
 import { Vector2 } from 'three';
 import store from '@/js/store/globalStore';
-
+import { Emitter } from '@/js/events';
 import fragment from '@/js/webgl/shaders/utils/trail.glsl';
-import { Emitter } from '../../../events';
 
 class Trail {
 	constructor() {
