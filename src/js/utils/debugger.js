@@ -77,7 +77,7 @@ tweakDragger.addEventListener('click', (e) => {
 }, true)
 document.addEventListener('mousemove', onDragMove)
 document.addEventListener('mouseup', onDragUp)
-document.addEventListener('keyup', (e) => e.key === 'h' && (tweak.hidden = !tweak.hidden))
+document.addEventListener('keyup', (e) => e.key === 'D' && (tweak.hidden = !tweak.hidden))
 window.addEventListener('resize', onResize)
 onResize()
 
@@ -110,10 +110,10 @@ export function copyData(folder) {
     function processChildren(children, acc) {
         children.forEach(item => {
             if(!item.children) {
-                acc[item.binding.key] = item.binding.value
+                item.binding && (acc[item.binding.key] = item.binding.value)
             } else {
                 item.children.forEach(nestedItem => {
-                    acc[nestedItem.binding.key] = nestedItem.binding.value;
+                    nestedItem.binding && (acc[nestedItem.binding.key] = nestedItem.binding.value)
                 });
             }
         });
