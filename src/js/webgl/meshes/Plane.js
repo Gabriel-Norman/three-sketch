@@ -4,7 +4,8 @@ import {
   Object3D,
   PlaneGeometry,
   ShaderMaterial,
-  Vector3,
+  Vector2,
+  Vector3
 } from "three"
 import store from "@/js/store/globalStore";
 import { getAsset } from '@/js/utils/assetsLoader'
@@ -16,7 +17,7 @@ import { sceneFolder } from "@/js/utils/debugger";
 import { createFolder } from "@/js/utils/debugger";
 
 const PARAMS = {
-  color: 'rgb(255,0,0)',
+  color: 'rgb(255,255,255)',
   active: true,
   rotation: {x: 0, y: 0, z: 1}
 }
@@ -46,8 +47,11 @@ export default class extends Object3D {
         uTime: {value: 0},
         uResolution: {value: new Vector3()},
         uColor: {value: new Color(PARAMS.color)},
-        tMap: {value: getAsset('tex-cat')},
-        tTrail: {value: fluidTrail.fbo.tex.value }
+        tMap: {value: getAsset('tex-uv')},
+        tTrail: {value: fluidTrail.fbo.tex.value },
+        tBlueNoise: {value: getAsset('tex-bluenoise-tile') },
+        uBlueNoiseTexelSize: {value: new Vector2(1 / 128, 1 / 128)},
+        uBlueNoiseCoordOffset: {value: new Vector2(0, 0)}
         // tTrail: {value: trail.fbo.target }
       },
       // transparent: true,
@@ -62,8 +66,9 @@ export default class extends Object3D {
   }
 
   onTick(time) {
-    const {uTime} = this.material.uniforms
+    const {uTime, uBlueNoiseCoordOffset} = this.material.uniforms
     uTime.value = time
+    uBlueNoiseCoordOffset.value.set(Math.random(), Math.random())
   }
 
   onResize() {
