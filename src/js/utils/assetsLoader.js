@@ -1,4 +1,4 @@
-import { CanvasTexture, EquirectangularReflectionMapping, ImageBitmapLoader, RepeatWrapping } from 'three'
+import { CanvasTexture, EquirectangularReflectionMapping, ImageBitmapLoader, LinearSRGBColorSpace, NoColorSpace, RepeatWrapping, SRGBColorSpace } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 
@@ -42,15 +42,15 @@ const gltfLoader = ({ id, src }) => {
   })
 }
 
-const textureLoader = function ({ id, src, tile = false }) {
+const textureLoader = function ({ id, src, tiled = false, flip = true }) {
   return new Promise((resolve, reject) => {
     const loader = new ImageBitmapLoader()
-    loader.setOptions({ imageOrientation: 'flipY' })
+    !flip && loader.setOptions({ imageOrientation: 'flipY' })
     loader.load(
       src,
       (image) => {
         const texture = new CanvasTexture(image)
-        if (tile) {
+        if (tiled) {
           texture.wrapS = RepeatWrapping
           texture.wrapT = RepeatWrapping
           texture.repeat.set(1, 1)
@@ -156,6 +156,32 @@ export const loadFile = function (obj) {
 export const getAsset = function (id) {
   if (assets.get(id) && assets.get(id).result) {
     return assets.get(id).result
+  }
+  return null
+}
+
+export const getTexAsset = function (id, opts = {}) {
+  const texID = `tex-${id}`
+  if (assets.get(texID) && assets.get(texID).result) {
+    const result = assets.get(texID).result
+
+    if(opts.color) {
+      switch(opts.color) {
+        case '':
+          result.colorSpace = NoColorSpace
+          break;
+        case 'srgb':
+          result.colorSpace = SRGBColorSpace
+          break;
+        case 'linear':
+          result.colorSpace = LinearSRGBColorSpace
+          break;
+        default:
+          null
+          break;
+      }
+    }
+    return result
   }
   return null
 }

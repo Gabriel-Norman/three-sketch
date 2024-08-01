@@ -4,7 +4,7 @@ import store from '@/js/store/globalStore';
 import tweak from '@/js/utils/debugger'
 
 import { GlobalRaf } from "@/js/events";
-import { tweakFolder } from '@/js/utils/debugger';
+import { rendererFolder } from '@/js/utils/debugger';
 
 class Renderer extends WebGLRenderer {
   constructor() {
@@ -31,12 +31,10 @@ class Renderer extends WebGLRenderer {
   }
 
   addDebug() {
-    const debug = tweakFolder.addFolder({ title: 'Renderer', index: 0 })
-    debug.expanded = false
-    debug.addBinding(this.info.memory, 'geometries', { label: 'geometries', readonly: true })
-    debug.addBinding(this.info.memory, 'textures', {readonly: true})
-    debug.addBinding(GlobalRaf, "isPaused", {label: 'Pause Raf'});
-    debug.children[debug.children.length - 1].element.after(this.stats.dom)
+    rendererFolder.addBinding(this.info.memory, 'geometries', { label: 'geometries', readonly: true })
+    rendererFolder.addBinding(this.info.memory, 'textures', {readonly: true})
+    rendererFolder.addBinding(GlobalRaf, "isPaused", {label: 'Pause Raf'});
+    rendererFolder.children[rendererFolder.children.length - 1].element.after(this.stats.dom)
     window.addEventListener("keyup", (e) => {
       if (e.key !== "p") return;
       GlobalRaf.isPaused = !GlobalRaf.isPaused;
@@ -45,10 +43,10 @@ class Renderer extends WebGLRenderer {
   }
 
   onResize() {
-    const {viewport} = store
+    const {width, height, dpr} = store.viewport
 
-    this.setSize(viewport.width, viewport.height);
-    this.setPixelRatio(viewport.dpr);
+    this.setSize(width, height);
+    this.setPixelRatio(dpr);
   }
 }
 

@@ -10,7 +10,7 @@ export function createManifestAssets ({ obj, prefix, type }) {
     const data = {
       src: objEl,
       type,
-      ...(type === 'texture' && { tile: objEl.includes('tiled') })
+      ...(type === 'texture' && { tiled: objEl.includes('tiled'), flip: objEl.includes('flip') || false })
     }
 
     if (manifest.has(id)) {

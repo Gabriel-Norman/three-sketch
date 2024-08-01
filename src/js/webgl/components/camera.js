@@ -33,9 +33,9 @@ class Camera extends PerspectiveCamera {
   }
 
   onResize() {
-    const {viewport} = store
+    const { aspect } = store.viewport
 
-    this.aspect = viewport.aspect;
+    this.aspect = aspect;
     this.unit = this.calculateUnitSize()
     this.updateProjectionMatrix();
   }

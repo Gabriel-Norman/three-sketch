@@ -16,8 +16,16 @@ const state = {
 const tweak = new Pane();
 tweak.hidden = false
 export const tweakFolder = tweak.addFolder({ title: 'Debugger' })
-export const sceneFolder = tweakFolder.addFolder({ title: 'Scene' })
-sceneFolder.expanded = false
+const tabs = tweakFolder.addTab({
+    pages: [
+      {title: 'Renderer'},
+      {title: 'Scene'},
+      {title: 'PostFX'},
+    ],
+});
+export const rendererFolder = tabs.pages[0]
+export const sceneFolder = tabs.pages[1]
+export const postFxFolder = tabs.pages[2]
 
 const tweakContainer = tweak.containerElem_
 const tweakWrapper = document.createElement('div')

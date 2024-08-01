@@ -8,13 +8,12 @@ import {
   Vector3
 } from "three"
 import store from "@/js/store/globalStore";
-import { getAsset } from '@/js/utils/assetsLoader'
+import { getTexAsset } from '@/js/utils/assetsLoader'
 import trail from "@/js/webgl/utils/fbo/trail";
 import fluidTrail from "@/js/webgl/utils/fbo/fluidTrail";
 import vertexShader from "@/js/webgl/shaders/plane.vs.glsl";
 import fragmentShader from "@/js/webgl/shaders/plane.fs.glsl";
-import { sceneFolder } from "@/js/utils/debugger";
-import { createFolder } from "@/js/utils/debugger";
+import { sceneFolder, createFolder } from "@/js/utils/debugger";
 
 const PARAMS = {
   color: 'rgb(255,255,255)',
@@ -47,9 +46,9 @@ export default class extends Object3D {
         uTime: {value: 0},
         uResolution: {value: new Vector3()},
         uColor: {value: new Color(PARAMS.color)},
-        tMap: {value: getAsset('tex-uv')},
+        tMap: {value: getTexAsset('uv')},
         tTrail: {value: fluidTrail.fbo.tex.value },
-        tBlueNoise: {value: getAsset('tex-bluenoise-tile') },
+        tBlueNoise: {value: getTexAsset('bluenoise-tiled') },
         uBlueNoiseTexelSize: {value: new Vector2(1 / 128, 1 / 128)},
         uBlueNoiseCoordOffset: {value: new Vector2(0, 0)}
         // tTrail: {value: trail.fbo.target }
