@@ -12,11 +12,15 @@ export default ({ mode }) => {
       outDir: resolve(__dirname, "./dist"),
       emptyOutDir: true,
       manifest: true,
+      assetsInlineLimit: 0,
       rollupOptions: {
         input: {
           index: resolve(__dirname, "./index.html"),
           main: resolve(__dirname, "./src/js/index.js"),
         },
+        output: {
+          hashCharacters: 'base36'
+        }
       },
     },
     resolve: {
