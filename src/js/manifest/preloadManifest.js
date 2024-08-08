@@ -9,3 +9,16 @@ export const manifest = new Map([
 //   ...createManifestAssets({ obj: hdrs, prefix: 'hdr', type: 'hdr' }).entries(),
 //   ...createManifestAssets({ obj: gltfs, prefix: '', type: 'gltf' }).entries()
 ])
+
+export const assetConfigs = {
+  textures: {
+    'tex-bluenoise': {
+      wrap: 'repeat',
+      colorSpace: '',
+      flipY: true,
+      generateMipmaps: false,
+      // anisotropy: 16,
+      // filter: 'nearest'
+    }
+  }
+}

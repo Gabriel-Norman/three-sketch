@@ -9,8 +9,7 @@ export function createManifestAssets ({ obj, prefix, type }) {
     const id = `${prefix}${prefix && '-'}${elName}`
     const data = {
       src: objEl,
-      type,
-      ...(type === 'texture' && { tiled: objEl.includes('tiled'), flip: objEl.includes('flip') || false })
+      type
     }
 
     if (manifest.has(id)) {

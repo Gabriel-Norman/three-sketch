@@ -1,72 +1,118 @@
-import { CanvasTexture, EquirectangularReflectionMapping, ImageBitmapLoader, LinearSRGBColorSpace, NoColorSpace, RepeatWrapping, SRGBColorSpace } from 'three'
+import {
+  CanvasTexture,
+  ClampToEdgeWrapping,
+  EquirectangularReflectionMapping,
+  ImageBitmapLoader,
+  LinearFilter,
+  LinearSRGBColorSpace,
+  MirroredRepeatWrapping,
+  NearestFilter,
+  NoColorSpace,
+  RepeatWrapping,
+  SRGBColorSpace,
+} from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
+import {assetConfigs} from '@/js/manifest/preloadManifest'
 
 const assets = new Map()
-
 const gltfObjLoader = new GLTFLoader()
 
-const imageLoader = function ({ id, src }) {
+function setupTexture (texture, id) {
+  const config = assetConfigs.textures[id] || {};
+  texture.name = id
+
+  if (config.wrap) {
+    switch (config.wrap) {
+      case 'repeat':
+        texture.wrapS = RepeatWrapping;
+        texture.wrapT = RepeatWrapping;
+        break;
+      case 'clamp':
+        texture.wrapS = ClampToEdgeWrapping;
+        texture.wrapT = ClampToEdgeWrapping;
+        break;
+      case 'mirror':
+        texture.wrapS = MirroredRepeatWrapping;
+        texture.wrapT = MirroredRepeatWrapping;
+        break;
+      default:
+    }
+  }
+
+  switch (config.colorSpace) {
+    case 'none':
+      texture.colorSpace = NoColorSpace;
+      break;
+    case 'srgb':
+      texture.colorSpace = SRGBColorSpace;
+      break;
+    case 'linear':
+      texture.colorSpace = LinearSRGBColorSpace;
+      break;
+    default:
+  }
+
+  switch (config.filter) {
+    case 'linear':
+      texture.minFilter = LinearFilter;
+      texture.magFilter = LinearFilter;
+      break;
+    case 'nearest':
+      texture.minFilter = NearestFilter;
+      texture.magFilter = NearestFilter;
+      break;
+    default:
+  }
+
+  if (config.generateMipmaps !== undefined) {
+    texture.generateMipmaps = config.generateMipmaps;
+  }
+
+  if (config.anisotropy !== undefined) {
+    texture.anisotropy = config.anisotropy;
+  }
+}
+
+const imageLoader = function (src) {
   return new Promise((resolve, reject) => {
     const img = new Image()
-    img.addEventListener('load', () => {
-      assets.set(id, { result: img })
-      resolve()
-    })
-    img.addEventListener('error', () => {
-      reject(new Error(`asset failed: ${id}`))
-    })
+    img.onload = () => resolve(img)
+    img.onerror = () => reject(new Error(`failed loading asset: ${src}`))
     img.src = src
   })
 }
 
-const gltfLoader = ({ id, src }) => {
+const gltfLoader = (src) => {
   return new Promise((resolve, reject) => {
     gltfObjLoader.load(
       src,
-      (gltf) => {
-        if (gltf) {
-          assets.set(id, { result: gltf })
-          resolve()
-        } else {
-          reject(new Error(`asset failed: ${id}`))
-        }
-      },
-      () => {
-        // progress
-      },
-      () => {
-        reject(new Error(`asset failed: ${id}`))
-      }
+      (gltf) => { gltf ? resolve(gltf) : reject(new Error(`asset failed: ${src}`)) },
+      () => { /* progress */ },
+      () => { reject(new Error(`asset failed: ${src}`)) }
     )
   })
 }
 
-const textureLoader = function ({ id, src, tiled = false, flip = true }) {
+const textureLoader = function ({ id, src }) {
   return new Promise((resolve, reject) => {
     const loader = new ImageBitmapLoader()
-    !flip && loader.setOptions({ imageOrientation: 'flipY' })
+    const config = assetConfigs.textures[id] || {};
+    !config.flipY && loader.setOptions({ imageOrientation: 'flipY' })
     loader.load(
       src,
       (image) => {
         const texture = new CanvasTexture(image)
-        if (tiled) {
-          texture.wrapS = RepeatWrapping
-          texture.wrapT = RepeatWrapping
-          texture.repeat.set(1, 1)
-        }
-        assets.set(id, { result: texture })
-        resolve()
+        setupTexture(texture, id)
+        resolve(texture)
       },
       undefined,
-      () => {
-        reject(new Error(`asset failed: ${id}`))
-      }
+      () => { reject(new Error(`asset failed: ${id}`)) }
     )
   })
 }
 
-const hdrLoader = function ({ id, src }) {
+const hdrLoader = function (src) {
   return new Promise((resolve, reject) => {
     const loader = new RGBELoader()
     loader.load(
@@ -74,30 +120,35 @@ const hdrLoader = function ({ id, src }) {
       (texture) => {
         const map = texture
         map.mapping = EquirectangularReflectionMapping
-
-        assets.set(id, { result: map })
         texture.dispose()
-        resolve()
+        resolve(map)
       },
       undefined,
-      () => {
-        reject(new Error(`asset failed: ${id}`))
-      }
+      () => { reject(new Error(`asset failed: ${id}`)) }
     )
   })
 }
 
-const globalLoader = (obj) => {
-  switch (obj.type) {
+const globalLoader = async (obj) => {
+  const { id, src, type } = obj;
+  let result
+
+  switch (type) {
     case 'image':
-      return imageLoader(obj)
+      result = await imageLoader(src)
+      break
     case 'gltf':
-      return gltfLoader(obj)
+      result = await gltfLoader(src)
+      break
     case 'texture':
-      return textureLoader(obj)
+      result = await textureLoader(obj)
+      break
     case 'hdr':
-      return hdrLoader(obj)
+      result = await hdrLoader(src)
+      break
   }
+
+  assets.set(id, { result })
 }
 
 export const loadManifest = function (arrayIn, onProgress = null) {
@@ -156,32 +207,6 @@ export const loadFile = function (obj) {
 export const getAsset = function (id) {
   if (assets.get(id) && assets.get(id).result) {
     return assets.get(id).result
-  }
-  return null
-}
-
-export const getTexAsset = function (id, opts = {}) {
-  const texID = `tex-${id}`
-  if (assets.get(texID) && assets.get(texID).result) {
-    const result = assets.get(texID).result
-
-    if(opts.color) {
-      switch(opts.color) {
-        case '':
-          result.colorSpace = NoColorSpace
-          break;
-        case 'srgb':
-          result.colorSpace = SRGBColorSpace
-          break;
-        case 'linear':
-          result.colorSpace = LinearSRGBColorSpace
-          break;
-        default:
-          null
-          break;
-      }
-    }
-    return result
   }
   return null
 }

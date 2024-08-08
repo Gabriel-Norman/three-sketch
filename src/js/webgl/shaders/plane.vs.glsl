@@ -10,6 +10,6 @@ void main() {
 
     vMvPos = mvPos;
     vWorldPos = worldPos;
-    vViewDirection = normalize(cameraPosition - worldPos);
+    vViewDirection = normalize(worldPos - cameraPosition);
     vUv = uv;
 }
