@@ -124,7 +124,7 @@ const hdrLoader = function (src) {
         resolve(map)
       },
       undefined,
-      () => { reject(new Error(`asset failed: ${id}`)) }
+      () => { reject(new Error(`asset failed: ${src}`)) }
     )
   })
 }
