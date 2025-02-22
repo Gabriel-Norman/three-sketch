@@ -1,7 +1,7 @@
 import Emitter from "./Emitter";
 import gsap from 'gsap';
-import store from "@/js/store/globalStore";
-import { damp } from "@/js/utils/math";
+import WebGLStore from "@/js/webgl/WebGLStore";
+import { damp, roundPrecise } from "@/js/utils/math";
 
 class Pointer {
   constructor() {
@@ -36,7 +36,7 @@ class Pointer {
   };
 
   onPointerMove = (e) => {
-    const {viewport} = store
+    const {viewport} = WebGLStore
     const {mapRange} = gsap.utils
     const {clientX, clientY} = e
     const {target, normalized, mapped} = this.state;
@@ -58,14 +58,14 @@ class Pointer {
   };
 
   onTick = ({rafDamp}) => {
-    const {viewport} = store
+    const {viewport} = WebGLStore
     const {clamp, mapRange} = gsap.utils
     const {current, target, ease, velocity} = this.state;
 
     current.x = damp(current.x, target.x, ease, rafDamp);
 		current.y = damp(current.y, target.y, ease, rafDamp);
-    const velX = Math.round((target.x - current.x) * 100) / 100;
-		const velY = Math.round((target.y - current.y) * 100) / 100;
+    const velX = roundPrecise((target.x - current.x), 2);
+		const velY = roundPrecise((target.y - current.y), 2);
 		const mouseTravelX = Math.abs(velX);
 		const mouseTravelY = Math.abs(velY);
     velocity.x = mapRange(-viewport.width / 2, viewport.width / 2, 1, -1, velX)

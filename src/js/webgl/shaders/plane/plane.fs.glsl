@@ -28,7 +28,7 @@ vec3 getBlueNoiseStatic(vec2 coord) {
 
 void main() {
     vec2 st = gl_FragCoord.xy / uResolution.xy;
-    vec4 fluid = texture2D(tTrail, vUv);
+    vec4 fluid = texture2D(tTrail, st);
     vec3 bnoise = getBlueNoiseStatic(gl_FragCoord.xy);
 
     vec2 uv = vUv - fluid.rg * 0.0002;

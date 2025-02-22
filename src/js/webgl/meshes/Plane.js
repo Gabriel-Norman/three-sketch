@@ -7,12 +7,12 @@ import {
   Vector2,
   Vector3
 } from "three"
-import store from "@/js/store/globalStore";
+import WebGLStore from "@/js/webgl/WebGLStore";
 import { getAsset } from '@/js/utils/assetsLoader'
 import trail from "@/js/webgl/utils/fbo/trail";
 import fluidTrail from "@/js/webgl/utils/fbo/fluidTrail";
-import vertexShader from "@/js/webgl/shaders/plane.vs.glsl";
-import fragmentShader from "@/js/webgl/shaders/plane.fs.glsl";
+import vertexShader from "@/js/webgl/shaders/plane/plane.vs.glsl";
+import fragmentShader from "@/js/webgl/shaders/plane/plane.fs.glsl";
 import { sceneFolder, createFolder } from "@/js/utils/debugger";
 
 const PARAMS = {
@@ -45,11 +45,11 @@ export default class extends Object3D {
         uResolution: {value: new Vector3()},
         uColor: {value: new Color(PARAMS.color)},
         tMap: {value: getAsset('tex-uv')},
+        // tTrail: {value: trail.fbo.target }
         tTrail: {value: fluidTrail.fbo.tex.value },
         tBlueNoise: {value: getAsset('tex-bluenoise') },
         uBlueNoiseTexelSize: {value: new Vector2(1 / 128, 1 / 128)},
         uBlueNoiseCoordOffset: {value: new Vector2(0, 0)}
-        // tTrail: {value: trail.fbo.target }
       },
       // transparent: true,
       vertexShader,
@@ -69,7 +69,7 @@ export default class extends Object3D {
   }
 
   onResize() {
-    const {width, height, dpr, aspect} = store.viewport
+    const {width, height, dpr, aspect} = WebGLStore.viewport
     const {uResolution} = this.material.uniforms
     uResolution.value.set(width * dpr, height * dpr, aspect) 
   }

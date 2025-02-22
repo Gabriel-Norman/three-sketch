@@ -1,18 +1,17 @@
 import {
-    WebGLRenderTarget,
-    Camera,
-    RGBAFormat,
-    Mesh,
-    Scene,
-    RawShaderMaterial,
-    Vector2,
-  } from 'three';
+  WebGLRenderTarget,
+  Camera,
+  RGBAFormat,
+  Mesh,
+  Scene,
+  RawShaderMaterial,
+  Vector2,
+} from 'three';
   
-  import renderer from '@/js/webgl/components/renderer';
-  import settings from '@/js/store/settings';
-  import triangle from '@/js/webgl/utils/primitives/triangle';
-  import vertexShader from '@/js/webgl/shaders/postfx.vs.glsl';
-  import fragmentShader from '@/js/webgl/shaders/postfx.fs.glsl';
+import renderer from '@/js/webgl/components/renderer';
+import triangle from '@/js/webgl/utils/primitives/triangle';
+import vertexShader from '@/js/webgl/shaders/postfx.vs.glsl';
+import fragmentShader from '@/js/webgl/shaders/postfx.fs.glsl';
 import { postFxFolder } from '@/js/utils/debugger';
   
   class PostFX {
@@ -29,8 +28,9 @@ import { postFxFolder } from '@/js/utils/debugger';
         depthBuffer: true,
       });
   
-      const defines = {};
-      settings.fxaa && (defines.FXAA = true);
+      const defines = {
+        FXAA: false
+      };
   
       this.material = new RawShaderMaterial({
         defines,

@@ -1,9 +1,22 @@
+import gsap from "gsap";
+
 const PI2 = Math.PI * 2.0;
 
-const lerp = (start, end, amt) => (1 - amt) * start + amt * end
-const invLerp = (x, y, a) => clamp((a - x) / (y - x))
-const damp = (start, end, amt, dt = 1) => lerp(start, end, 1 - Math.exp(Math.log(1 - amt) * dt))
-const round = (t) => Math.round(t * 100) / 100
+function lerp (start, end, amt) { return (1 - amt) * start + amt * end }
+function invLerp (x, y, a) { return gsap.utils.clamp(0, 1, (a - x) / (y - x)) }
+function damp (start, end, amt, dt = 1) { return lerp(start, end, 1 - Math.exp(Math.log(1 - amt) * dt)) }
+function modulo (n, d) { return (n % d + d) % d }
+
+/**
+ * Round a value with N decimals
+ * @param value the value to round
+ * @param places the amt of decimals
+ * @returns
+*/
+function roundPrecise (value, places) {
+    const p = Math.pow(10, places || 0)
+    return Math.round(value * p) / p
+}
 
 /**
  * Wrap an angle between 0 and 2*PI
@@ -38,4 +51,4 @@ function normalizeDeltaAngle(angle, dest) {
     return angle + d0;
 }
 
-export { lerp, damp, invLerp, round, normalizeAngle, normalizeDeltaAngle };
+export { lerp, damp, invLerp, modulo, roundPrecise, normalizeAngle, normalizeDeltaAngle };

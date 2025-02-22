@@ -1,6 +1,6 @@
 import FBO from '.';
 import { Vector2 } from 'three';
-import store from '@/js/store/globalStore';
+import WebGLStore from "@/js/webgl/WebGLStore";
 import { Emitter } from '@/js/events';
 import fragment from '@/js/webgl/shaders/utils/trail.glsl';
 
@@ -68,7 +68,7 @@ class Trail {
 	}
 
 	onResize = () => {
-		const { viewport } = store
+		const { viewport } = WebGLStore
 		const { uAspect } = this.fbo.uniforms;
 		uAspect.value = viewport.aspect;
 	}

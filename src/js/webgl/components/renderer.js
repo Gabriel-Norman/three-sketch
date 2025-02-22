@@ -1,6 +1,6 @@
 import { WebGLRenderer, Color } from 'three';
 import Stats from 'stats-js'
-import store from '@/js/store/globalStore';
+import WebGLStore from "@/js/webgl/WebGLStore";
 import tweak from '@/js/utils/debugger'
 
 import { GlobalRaf } from "@/js/events";
@@ -43,7 +43,7 @@ class Renderer extends WebGLRenderer {
   }
 
   onResize() {
-    const {width, height, dpr} = store.viewport
+    const {width, height, dpr} = WebGLStore.viewport
 
     this.setSize(width, height);
     this.setPixelRatio(dpr);

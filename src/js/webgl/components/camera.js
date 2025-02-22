@@ -1,7 +1,7 @@
 import { PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import renderer from './renderer';
-import store from '@/js/store/globalStore';
+import WebGLStore from "@/js/webgl/WebGLStore";
 
 class Camera extends PerspectiveCamera {
   constructor() {
@@ -16,7 +16,6 @@ class Camera extends PerspectiveCamera {
 
   initOrbitControl() {
     this.controls = new OrbitControls(this, renderer.domElement);
-
     this.controls.enabled = true;
     this.controls.maxDistance = 1000;
   }
@@ -33,7 +32,7 @@ class Camera extends PerspectiveCamera {
   }
 
   onResize() {
-    const { aspect } = store.viewport
+    const { aspect } = WebGLStore.viewport
 
     this.aspect = aspect;
     this.unit = this.calculateUnitSize()

@@ -1,6 +1,6 @@
 import { Fluid } from './fluid'
 import { Vector2 } from 'three';
-import store from '@/js/store/globalStore';
+import WebGLStore from "@/js/webgl/WebGLStore";
 import renderer from '@/js/webgl/components/renderer';
 import { Emitter } from '@/js/events';
 
@@ -8,31 +8,28 @@ import { Emitter } from '@/js/events';
 
 class FluidTrail {
 	constructor() {
-		this.init();
+		// this.init();
         this.lastMouse = new Vector2();
 	}
 
 	init() {
         this.fbo = new Fluid(renderer, {
-            curlStrength: 0,
+            curlStrength: 1,
+            radius: .1,
 			// densityDissipation: .998,
 			// radius: .8
         })
 
 		Emitter.on('site:pointer:move', this.onPointerMove)
-		Emitter.on('site:resize', this.onResize)
-		Emitter.on('site:tick', this.onTick)
 	}
 
 	destroy() {
 		Emitter.off('site:pointer:move', this.onPointerMove)
-		Emitter.off('site:resize', this.onResize)
-		Emitter.off('site:tick', this.onTick)
 		this.fbo.dispose()
 	}
 
 	onPointerMove = ({ state }) => {
-        const { viewport } = store
+        const { viewport } = WebGLStore
         const { pos } = state;
 
         // First input
@@ -64,9 +61,10 @@ class FluidTrail {
 	}
 
 	onResize = () => {
-		const { viewport } = store
+		const { viewport } = WebGLStore
 		const { uAspect } = this.fbo.splatMaterial.uniforms;
 		uAspect.value = viewport.aspect;
+        console.log(uAspect.value)
 	}
 }
 

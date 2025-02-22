@@ -1,5 +1,4 @@
-import store from '@/js/store/globalStore'
-import { gsap } from 'gsap';
+import WebGLStore from '@/js/webgl/WebGLStore'
 import Emitter from "./Emitter";
 
 class Resize {
@@ -13,13 +12,7 @@ class Resize {
   }
 
   onResize = () => {
-    const {viewport} = store;
-
-    viewport.width = window.innerWidth
-    viewport.height = window.innerHeight
-    viewport.aspect = window.innerWidth / window.innerHeight
-    viewport.dpr = gsap.utils.clamp(1, 2, window.devicePixelRatio)
-
+    WebGLStore.onResize(window.innerWidth, window.innerHeight)
     Emitter.emit('site:resize', {})
   };
 }
